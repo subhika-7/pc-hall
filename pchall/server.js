@@ -5,7 +5,9 @@ require("dotenv").config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "https://pc-hall.netlify.app"
+}));
 app.use(express.json());
 app.use(express.static("public")); // serve frontend files
 
