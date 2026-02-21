@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC Mini Hall — Book Your Moment</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+--gold:#c9a84c;
+--gold-light:#e8c97a;
+--gold-dim:rgba(201,168,76,0.15);
+--dark:#0e0b08;
+--dark2:#1a1410;
+--cream:#f5efe6;
+--text:#e8ddd0;
+--muted:#9a8a78;
+}
+
+body{
+font-family:'DM Sans',sans-serif;
+background:radial-gradient(circle at 30% 30%, #1b120a 0%, #0e0b08 60%);
+color:var(--text);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.container{max-width:520px;width:100%}
+
+.header{text-align:center;margin-bottom:28px}
+.badge{
+display:inline-block;
+padding:6px 16px;
+border-radius:100px;
+background:var(--gold-dim);
+color:var(--gold);
+font-size:11px;
+letter-spacing:.15em;
+text-transform:uppercase;
+margin-bottom:14px;
+}
+.header h1{
+font-family:'Cormorant Garamond',serif;
+font-weight:300;
+font-size:3rem;
+color:var(--cream);
+}
+.header em{color:var(--gold-light)}
+.header p{color:var(--muted);margin-top:6px}
+
+.card{
+background:var(--dark2);
+border-radius:24px;
+padding:26px;
+border:1px solid rgba(255,255,255,0.05);
+box-shadow:0 30px 60px rgba(0,0,0,0.5);
+}
+
+/* DATE RANGE */
+.section-label{
+font-size:11px;
+letter-spacing:.12em;
+text-transform:uppercase;
+color:var(--muted);
+margin-bottom:12px;
+}
+
+.dr-chips{
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom:10px;
+}
+
+.dr-chip{
+flex:1;
+padding:14px;
+border-radius:14px;
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.1);
+transition:.2s;
+}
+
+.dr-chip.active{
+border-color:var(--gold);
+background:var(--gold-dim);
+}
+
+.dr-chip-label{
+font-size:10px;
+text-transform:uppercase;
+color:var(--muted);
+display:block;
+margin-bottom:4px;
+}
+
+.dr-chip-val{
+font-family:'Cormorant Garamond',serif;
+font-size:18px;
+color:var(--cream);
+}
+
+.placeholder{color:rgba(255,255,255,0.3)}
+.arrow{color:var(--gold);font-size:18px}
+.duration{text-align:center;font-size:12px;color:var(--gold);margin-bottom:14px}
+
+/* CALENDAR */
+.calendar{
+background:rgba(0,0,0,0.35);
+border-radius:18px;
+padding:18px;
+margin-bottom:14px;
+}
+
+.cal-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:14px;
+}
+
+.cal-nav{
+background:none;
+border:none;
+color:var(--gold);
+font-size:20px;
+cursor:pointer;
+}
+
+.cal-title{
+font-family:'Cormorant Garamond',serif;
+font-size:20px;
+color:var(--cream);
+}
+
+.cal-weekdays,
+.cal-days{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:4px;
+}
+
+.cal-weekdays div{
+font-size:10px;
+color:var(--muted);
+text-align:center;
+}
+
+.cal-day{
+aspect-ratio:1;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:10px;
+cursor:pointer;
+transition:.2s;
+}
+
+.cal-day:hover{background:var(--gold-dim)}
+.cal-day.disabled{opacity:.2;pointer-events:none}
+.range-start,.range-end{
+background:linear-gradient(135deg,var(--gold),var(--gold-light));
+color:#1a1410;font-weight:600;
+}
+.in-range{background:rgba(201,168,76,0.2)}
+
+.hint{text-align:center;font-size:11px;color:var(--muted);margin-bottom:16px}
+
+/* PREMIUM RANGE SLIDER */
+.slider-label{font-size:11px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+
+input[type=range]{
+-webkit-appearance:none;
+width:100%;
+height:4px;
+background:rgba(255,255,255,0.12);
+border-radius:4px;
+outline:none;
+cursor:pointer;
+margin-bottom:16px;
+}
+
+input[type=range]::-webkit-slider-runnable-track{
+height:4px;
+background:rgba(255,255,255,0.12);
+border-radius:4px;
+}
+
+input[type=range]::-webkit-slider-thumb{
+-webkit-appearance:none;
+width:22px;
+height:22px;
+border-radius:50%;
+background:linear-gradient(135deg,var(--gold),var(--gold-light));
+box-shadow:0 0 15px rgba(201,168,76,0.5);
+cursor:grab;
+transition:transform .15s ease, box-shadow .15s ease;
+margin-top:-9px;
+}
+
+input[type=range]:active::-webkit-slider-thumb{
+cursor:grabbing;
+transform:scale(1.15);
+box-shadow:0 0 25px rgba(201,168,76,0.8);
+}
+
+/* TIME CHIPS */
+.time-chips{display:flex;gap:10px;margin-bottom:16px}
+.time-chip{
+flex:1;padding:14px;border-radius:14px;
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.1);
+text-align:center;
+}
+.time-chip.gold{
+background:var(--gold-dim);
+border-color:var(--gold);
+}
+.time-chip span{display:block;font-size:11px;color:var(--muted);margin-bottom:4px}
+.time-chip strong{font-family:'Cormorant Garamond',serif;font-size:18px}
+
+/* BUTTON */
+button{
+width:100%;
+padding:16px;
+border:none;
+border-radius:16px;
+background:linear-gradient(135deg,var(--gold),var(--gold-light));
+color:#1a1410;
+font-weight:500;
+font-size:15px;
+cursor:pointer;
+margin-bottom:16px;
+}
+
+.result{text-align:center;font-size:14px;margin-bottom:16px}
+.success{color:#7dd87d}
+.error{color:#e88080}
+
+.contact{
+display:flex;
+justify-content:space-between;
+font-size:13px;
+color:var(--muted);
+border-top:1px solid rgba(255,255,255,0.05);
+padding-top:14px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<div class="header">
+<div class="badge">Premium Venue</div>
+<h1>PC <em>Mini</em> Hall</h1>
+<p>Reserve your perfect moment in time</p>
+</div>
+
+<div class="card">
+
+<div class="section-label">Select Date Range</div>
+
+<div class="dr-chips">
+<div class="dr-chip" id="chipFrom">
+<span class="dr-chip-label">Check In</span>
+<div class="dr-chip-val placeholder" id="chipFromVal">Pick start</div>
+</div>
+<div class="arrow">→</div>
+<div class="dr-chip" id="chipTo">
+<span class="dr-chip-label">Check Out</span>
+<div class="dr-chip-val placeholder" id="chipToVal">Pick end</div>
+</div>
+</div>
+
+<div class="duration" id="durationText"></div>
+
+<div class="calendar">
+<div class="cal-header">
+<button class="cal-nav" onclick="changeMonth(-1)">‹</button>
+<div class="cal-title" id="monthTitle"></div>
+<button class="cal-nav" onclick="changeMonth(1)">›</button>
+</div>
+
+<div class="cal-weekdays">
+<div>Su</div><div>Mo</div><div>Tu</div><div>We</div>
+<div>Th</div><div>Fr</div><div>Sa</div>
+</div>
+
+<div class="cal-days" id="calDays"></div>
+</div>
+
+<div class="hint" id="calHint">Click a date to set check-in</div>
+
+<div class="slider-label">Start Time</div>
+<input type="range" id="startSlider" min="6" max="22" value="9" oninput="updateTime()">
+
+<div class="slider-label">End Time</div>
+<input type="range" id="endSlider" min="7" max="23" value="11" oninput="updateTime()">
+
+<div class="time-chips">
+<div class="time-chip">
+<span>From</span>
+<strong id="fromTime">9 AM</strong>
+</div>
+<div class="time-chip">
+<span>Until</span>
+<strong id="untilTime">11 AM</strong>
+</div>
+<div class="time-chip gold">
+<span>Duration</span>
+<strong id="timeDuration">2 hrs</strong>
+</div>
+</div>
+
+<button onclick="checkAvailability()">✦ Check Availability</button>
+
+<div class="result" id="result"></div>
+
+<div class="contact">
+<div>📞 9442067715</div>
+<div>📸 @pc_mini_hall</div>
+</div>
+
+</div>
+</div>
+
+<script>
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MONTH_SHORT=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+const today=new Date();today.setHours(0,0,0,0);
+
+let viewMonth=today.getMonth();
+let viewYear=today.getFullYear();
+let startDate=null;
+let endDate=null;
+let pickingEnd=false;
+
+function renderCal(){
+document.getElementById('monthTitle').textContent=MONTHS[viewMonth]+' '+viewYear;
+const grid=document.getElementById('calDays');
+grid.innerHTML='';
+const firstDay=new Date(viewYear,viewMonth,1).getDay();
+const totalDays=new Date(viewYear,viewMonth+1,0).getDate();
+for(let i=0;i<firstDay;i++)grid.appendChild(document.createElement('div'));
+for(let d=1;d<=totalDays;d++){
+const date=new Date(viewYear,viewMonth,d);
+const el=document.createElement('div');
+el.className='cal-day';
+el.textContent=d;
+if(date<today){el.classList.add('disabled')}
+else{
+if(startDate && date.getTime()==startDate.getTime())el.classList.add('range-start');
+if(endDate && date.getTime()==endDate.getTime())el.classList.add('range-end');
+if(startDate && endDate && date>startDate && date<endDate)el.classList.add('in-range');
+el.onclick=()=>handleDateClick(date);
+}
+grid.appendChild(el);
+}
+}
+
+function handleDateClick(date){
+if(!startDate || (startDate && endDate)){
+startDate=date;endDate=null;pickingEnd=true;
+}else if(pickingEnd){
+if(date<startDate){startDate=date;}
+else{endDate=date;pickingEnd=false;}
+}
+updateUI();renderCal();
+}
+
+function updateUI(){
+const from=document.getElementById('chipFromVal');
+const to=document.getElementById('chipToVal');
+const dur=document.getElementById('durationText');
+const hint=document.getElementById('calHint');
+
+if(startDate){
+from.textContent=startDate.getDate()+' '+MONTH_SHORT[startDate.getMonth()];
+from.classList.remove('placeholder');
+document.getElementById('chipFrom').classList.add('active');
+}
+
+if(endDate){
+to.textContent=endDate.getDate()+' '+MONTH_SHORT[endDate.getMonth()];
+to.classList.remove('placeholder');
+document.getElementById('chipTo').classList.add('active');
+const days=Math.floor((endDate-startDate)/86400000)+1;
+dur.textContent=days+' day'+(days>1?'s':'')+' selected';
+}else{
+to.textContent='Pick end';
+to.classList.add('placeholder');
+dur.textContent='';
+}
+
+if(!startDate)hint.textContent='Click a date to set check-in';
+else if(!endDate)hint.textContent='Now click the check-out date';
+else hint.textContent='Click any date to reset';
+}
+
+function changeMonth(dir){
+viewMonth+=dir;
+if(viewMonth>11){viewMonth=0;viewYear++}
+if(viewMonth<0){viewMonth=11;viewYear--}
+renderCal();
+}
+
+function updateTime(){
+let start=parseInt(startSlider.value);
+let end=parseInt(endSlider.value);
+if(end<=start){end=start+1;endSlider.value=end}
+document.getElementById('fromTime').textContent=formatHour(start);
+document.getElementById('untilTime').textContent=formatHour(end);
+document.getElementById('timeDuration').textContent=(end-start)+' hrs';
+}
+
+function formatHour(h){
+let hour=h%12==0?12:h%12;
+let period=h>=12?'PM':'AM';
+return hour+' '+period;
+}
+
+function checkAvailability(){
+const result=document.getElementById('result');
+if(!startDate || !endDate){
+result.innerHTML="<span class='error'>Please select booking dates</span>";
+return;
+}
+result.innerHTML="<span class='success'>Hall is available! Call 9442067715 to confirm.</span>";
+}
+
+renderCal();
+updateTime();
+</script>
+
+</body>
+</html>
