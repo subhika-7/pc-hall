@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Hall Ganapathy – Book Your Event</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #1a4fa0;
+            --gold-light: #2e6ed4;
+            --dark: #ffffff;
+            --border: rgba(26,79,160,0.25);
+            --text: #0f0f0f;
+            --text-muted: #5a5a6a;
+            --card-bg: rgba(0,0,0,0.04);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ===== FIXED TOP NAV ===== */
+        .topnav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 32px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0) 100%);
+        }
+        .nav-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem; letter-spacing: 0.08em;
+            color: var(--gold-light); text-transform: uppercase;
+        }
+        .nav-logo {
+            width: 64px; height: 64px;
+            object-fit: contain;
+            filter: invert(1) sepia(1) saturate(1.5) hue-rotate(5deg) brightness(1.1);
+            transition: transform 0.3s;
+        }
+        .nav-logo:hover { transform: scale(1.05); }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            height: 100vh; min-height: 620px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center; overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute; inset: 0;
+            background-image: url('hall.jpg');
+            background-size: cover;
+            background-position: center top;
+            animation: slowZoom 22s ease-in-out infinite alternate;
+        }
+        /* Dark overlay — not too heavy so the hall is visible */
+        .hero-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0.35) 0%,
+                rgba(255,255,255,0.25) 40%,
+                rgba(255,255,255,0.55) 75%,
+                rgba(255,255,255,1) 100%
+            );
+        }
+        @keyframes slowZoom {
+            from { transform: scale(1); }
+            to   { transform: scale(1.08); }
+        }
+        .hero-content {
+            position: relative; z-index: 2; padding: 0 20px;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900; letter-spacing: -1px; line-height: 1.05;
+            animation: fadeUp 1s 0.1s ease forwards; opacity: 0;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.5);
+        }
+        .hero h1 span {
+            background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .hero-sub {
+            font-size: 0.95rem; color: rgba(15,15,15,0.65);
+            letter-spacing: 0.25em; text-transform: uppercase;
+            margin: 18px 0 44px;
+            animation: fadeUp 1s 0.25s ease forwards; opacity: 0;
+        }
+        .scroll-cta { animation: fadeUp 1s 0.4s ease forwards; opacity: 0; }
+        .scroll-cta a {
+            display: inline-flex; align-items: center; gap: 10px;
+            color: var(--gold); text-decoration: none; font-weight: 600;
+            font-size: 0.88rem; letter-spacing: 0.12em; text-transform: uppercase;
+            border: 1px solid rgba(201,168,76,0.5); padding: 13px 34px; border-radius: 50px;
+            transition: all 0.3s; backdrop-filter: blur(6px);
+            background: rgba(255,255,255,0.4);
+        }
+        .scroll-cta a:hover { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(22px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== BOOKING SECTION ===== */
+        .booking-section {
+            max-width: 760px; margin: -70px auto 0;
+            padding: 0 20px 80px; position: relative; z-index: 10;
+        }
+        .booking-card {
+            background: rgba(250,250,252,0.97);
+            border: 1px solid var(--border);
+            border-radius: 20px; padding: 46px 40px;
+            backdrop-filter: blur(24px);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.7);
+        }
+        .section-label {
+            font-size: 0.68rem; letter-spacing: 0.32em; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 6px;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700;
+            margin-bottom: 32px; color: var(--text);
+        }
+        .date-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+
+        .field-group label {
+            display: block; font-size: 0.72rem; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--text-muted); margin-bottom: 9px; font-weight: 500;
+        }
+        .field-group input[type="date"] {
+            width: 100%; padding: 13px 16px;
+            background: rgba(0,0,0,0.04); border: 1px solid var(--border);
+            border-radius: 10px; color: var(--text); font-size: 0.93rem;
+            font-family: 'DM Sans', sans-serif; transition: all 0.3s; cursor: pointer;
+        }
+        .field-group input[type="date"]:hover,
+        .field-group input[type="date"]:focus {
+            border-color: var(--gold); background: rgba(201,168,76,0.05); outline: none;
+        }
+        .field-group input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(0.7) sepia(1) saturate(3) hue-rotate(5deg); cursor: pointer;
+        }
+
+        .btn-row { display: flex; gap: 12px; margin-top: 26px; }
+        .btn-primary {
+            flex: 1; padding: 15px 22px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: var(--dark); border: none; border-radius: 10px; font-size: 0.92rem;
+            font-weight: 700; font-family: 'DM Sans', sans-serif; cursor: pointer;
+            letter-spacing: 0.05em; text-transform: uppercase; transition: all 0.3s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(26,79,160,0.45); }
+        .btn-primary.loading { opacity: 0.75; pointer-events: none; }
+        .spinner {
+            width: 15px; height: 15px;
+            border: 2px solid rgba(255,255,255,0.3); border-top-color: var(--dark);
+            border-radius: 50%; animation: spin 0.7s linear infinite; display: none;
+        }
+        .btn-primary.loading .spinner { display: inline-block; }
+        .btn-primary.loading .btn-text { display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .btn-secondary {
+            padding: 15px 22px; background: transparent; color: var(--text-muted);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; font-size: 0.88rem;
+            font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.3s;
+        }
+        .btn-secondary:hover { border-color: var(--text-muted); color: var(--text); }
+
+        .date-pill {
+            display: none; align-items: center; gap: 10px;
+            background: rgba(26,79,160,0.07); border: 1px solid var(--border);
+            border-radius: 8px; padding: 11px 15px; margin-top: 14px;
+            font-size: 0.83rem; color: var(--gold-light);
+        }
+        .date-pill.show { display: flex; }
+
+        .result-box {
+            margin-top: 22px; padding: 18px 22px; border-radius: 12px;
+            font-size: 0.91rem; line-height: 1.7; display: none;
+            animation: fadeUp 0.35s ease;
+        }
+        .result-box.show { display: block; }
+        .result-box.available { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.3); color: #86efac; }
+        .result-box.booked    { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; }
+        .result-box.error     { background: rgba(251,146,60,0.08); border: 1px solid rgba(251,146,60,0.3); color: #fdba74; }
+        .result-box .status-icon { font-size: 1.4rem; margin-bottom: 6px; display: block; }
+        .result-box strong { display: block; font-size: 0.97rem; margin-bottom: 5px; }
+        .result-box .meta { color: rgba(0,0,0,0.45); font-size: 0.8rem; margin-top: 9px; }
+
+        /* ===== INFO CARDS ===== */
+        .info-section { max-width: 760px; margin: 0 auto 80px; padding: 0 20px; }
+        .info-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+        .info-card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 14px; padding: 26px 20px; text-align: center; transition: all 0.3s;
+        }
+        .info-card:hover { background: rgba(26,79,160,0.05); border-color: var(--gold); transform: translateY(-4px); }
+        .info-card .icon { font-size: 1.9rem; margin-bottom: 12px; }
+        .info-card h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; margin-bottom: 7px; }
+        .info-card p { font-size: 0.81rem; color: var(--text-muted); line-height: 1.55; }
+
+        /* ===== FOOTER ===== */
+        footer {
+            border-top: 1px solid var(--border); padding: 26px 20px;
+            display: flex; align-items: center; justify-content: center;
+            gap: 28px; flex-wrap: wrap; color: var(--text-muted); font-size: 0.8rem;
+        }
+        footer a {
+            color: var(--gold); text-decoration: none;
+            display: flex; align-items: center; gap: 6px; font-weight: 500; transition: color 0.2s;
+        }
+        footer a:hover { color: var(--gold-light); }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 580px) {
+            .topnav { padding: 14px 20px; }
+            .nav-logo { width: 50px; height: 50px; }
+            .booking-card { padding: 30px 20px; }
+            .date-grid { grid-template-columns: 1fr; gap: 12px; }
+            .btn-row { flex-direction: column; }
+            .info-grid { grid-template-columns: 1fr; }
+            .section-title { font-size: 1.55rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- TOP NAV with logo top-right -->
+<nav class="topnav">
+    <div class="nav-brand">PC Hall · Ganapathy</div>
+    <img src="logo.png" alt="PC Hall Logo" class="nav-logo">
+</nav>
+
+<!-- HERO with hall.jpg background -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1>PC Hall<br><span>Ganapathy</span></h1>
+        <p class="hero-sub">Premium Event Venue · Coimbatore</p>
+        <div class="scroll-cta">
+            <a href="#booking">Check Availability ↓</a>
+        </div>
+    </div>
+</section>
+
+<!-- BOOKING -->
+<section class="booking-section" id="booking">
+    <div class="booking-card">
+        <p class="section-label">Real-Time Availability</p>
+        <h2 class="section-title">Book Your Event</h2>
+
+        <div class="date-grid">
+            <div class="field-group">
+                <label for="fromDate">Check-In Date</label>
+                <input type="date" id="fromDate" required>
+            </div>
+            <div class="field-group">
+                <label for="toDate">Check-Out Date</label>
+                <input type="date" id="toDate" required>
+            </div>
+        </div>
+
+        <div class="date-pill" id="datePill">
+            <span>📅</span>
+            <span id="datePillText"></span>
+        </div>
+
+        <div class="btn-row">
+            <button class="btn-primary" onclick="checkAvailability()">
+                <div class="spinner"></div>
+                <span class="btn-text">✦ Check Availability</span>
+            </button>
+            <button class="btn-secondary" onclick="resetForm()">Reset</button>
+        </div>
+
+        <div class="result-box" id="resultBox">
+            <span class="status-icon" id="statusIcon"></span>
+            <strong id="statusTitle"></strong>
+            <div id="statusBody"></div>
+            <div class="meta" id="statusMeta"></div>
+        </div>
+    </div>
+</section>
+
+<!-- INFO -->
+<section class="info-section">
+    <div class="info-grid">
+        <div class="info-card">
+            <div class="icon">🏛️</div>
+            <h3>Elegant Venue</h3>
+            <p>Spacious hall with modern amenities for all occasions</p>
+        </div>
+        <div class="info-card">
+            <div class="icon">📅</div>
+            <h3>Easy Booking</h3>
+            <p>Check real-time availability and reserve your dates instantly</p>
+        </div>
+        <div class="info-card">
+            <div class="icon">📞</div>
+            <h3>Quick Confirm</h3>
+            <p>Call <strong style="color:var(--gold)">9442067715</strong> to finalize your booking</p>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <span>© 2025 PC Hall Ganapathy</span>
+    <a href="tel:9442067715">📞 9442067715</a>
+    <a href="https://instagram.com/pc_mini_hall" target="_blank">📷 Instagram</a>
+    <a href="admin.html" style="color:var(--text-muted);font-size:0.74rem">Admin</a>
+</footer>
+
+<script>
+    const API = 'https://pc-hall.onrender.com';
+
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('fromDate').min = today;
+    document.getElementById('toDate').min = today;
+
+    document.getElementById('fromDate').addEventListener('change', updatePill);
+    document.getElementById('toDate').addEventListener('change', updatePill);
+
+    function updatePill() {
+        const from = document.getElementById('fromDate').value;
+        const to   = document.getElementById('toDate').value;
+        const pill = document.getElementById('datePill');
+        if (from && to) {
+            const days = Math.ceil((new Date(to) - new Date(from)) / 86400000) + 1;
+            document.getElementById('datePillText').textContent =
+                `${fmt(from)} → ${fmt(to)}  ·  ${days} day${days > 1 ? 's' : ''}`;
+            pill.classList.add('show');
+        } else {
+            pill.classList.remove('show');
+        }
+    }
+
+    function fmt(str) {
+        return new Date(str + 'T00:00:00').toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+    }
+
+    async function checkAvailability() {
+        const from = document.getElementById('fromDate').value;
+        const to   = document.getElementById('toDate').value;
+        const btn  = document.querySelector('.btn-primary');
+        const box  = document.getElementById('resultBox');
+
+        if (!from || !to)              return showResult('error','⚠️','Missing Dates','Please select both check-in and check-out dates.','');
+        if (new Date(to) < new Date(from)) return showResult('error','⚠️','Invalid Range','Check-out must be on or after check-in date.','');
+
+        btn.classList.add('loading');
+        box.classList.remove('show');
+
+        try {
+            const res  = await fetch(`${API}/check-availability`, {
+                method: 'POST', headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({ fromDate: from, toDate: to })
+            });
+            const data = await res.json();
+
+            if (data.available) {
+                showResult('available','✅','Available!',
+                    `Your dates <strong>${fmt(from)}</strong> to <strong>${fmt(to)}</strong> are available.`,
+                    'Call <strong>9442067715</strong> to confirm your reservation.');
+            } else {
+                showResult('booked','❌','Not Available',
+                    'The hall is already booked for part or all of your selected dates.',
+                    'Please try different dates or call us for assistance.');
+            }
+        } catch {
+            showResult('error','⚠️','Connection Error','Could not reach the server. Please try again.','');
+        }
+
+        btn.classList.remove('loading');
+    }
+
+    function showResult(type, icon, title, body, meta) {
+        const box = document.getElementById('resultBox');
+        box.className = `result-box ${type} show`;
+        document.getElementById('statusIcon').textContent  = icon;
+        document.getElementById('statusTitle').textContent = title;
+        document.getElementById('statusBody').innerHTML    = body;
+        document.getElementById('statusMeta').innerHTML    = meta;
+    }
+
+    function resetForm() {
+        document.getElementById('fromDate').value = '';
+        document.getElementById('toDate').value   = '';
+        document.getElementById('datePill').classList.remove('show');
+        document.getElementById('resultBox').classList.remove('show');
+    }
+</script>
+</body>
+</html>
